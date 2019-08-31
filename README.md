@@ -24,16 +24,36 @@ $ faas-cli new --lang node-streaming stream-this
 module.exports = (context, callback) => {
 
     var count = 0;
+    var max = 8000;
+
     var timer = setInterval(function() {
         process.stdout.write("Message " + count.toString()+"\n");
         count++;
 
-        if(count > 10) {
+        if(count > max) {
             clearInterval(timer);
             callback(undefined, undefined);
         }
-    }, 500);
+    }, 1);
 }
+```
+
+* Set the timeout to be more generous
+
+```yaml
+version: 1.0
+provider:
+  name: openfaas
+  gateway: http://127.0.0.1:8080
+functions:
+  stream-this:
+    lang: node-streaming
+    handler: ./stream-this
+    image: stream-this:latest
+    environment:
+      write_timeout: 1m
+      read_timeout: 1m
+      exec_timeout: 1m
 ```
 
 * Deploy
@@ -58,6 +78,8 @@ Message 8
 Message 9
 Message 10
 ```
+
+Generally, I saw this take 13s, with the first buffer printing at 2500, 2nd at around 5000 and finally the 8000 message.
 
 Execute via Docker without the OpenFaaS gateway:
 
