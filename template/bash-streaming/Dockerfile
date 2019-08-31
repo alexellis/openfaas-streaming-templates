@@ -1,6 +1,6 @@
 FROM openfaas/of-watchdog:0.7.1 as watchdog
 
-FROM node:8.9.1-alpine as build
+FROM alpine:3.10 as build
 
 COPY --from=watchdog /fwatchdog /usr/bin/fwatchdog
 RUN chmod +x /usr/bin/fwatchdog
@@ -9,26 +9,15 @@ RUN addgroup -S app && adduser app -S -G app
 
 WORKDIR /root/
 
-# Turn down the verbosity to default level.
-ENV NPM_CONFIG_LOGLEVEL warn
-
 RUN mkdir -p /home/app
 
 # Wrapper/boot-strapper
 WORKDIR /home/app
-COPY package.json ./
+COPY index.sh ./
 
-# This ordering means the npm installation is cached for the outer function handler.
-RUN npm i --production
-
-# Copy outer function handler
-COPY index.js ./
-
-# COPY function node packages and install, adding this as a separate
-# entry allows caching of npm install runtime dependencies
 WORKDIR /home/app/function
-COPY function/*.json ./
-RUN npm i --production || :
+COPY function/*.sh ./
+
 
 # Copy in additional function files and folders
 COPY --chown=app:app function/ .
@@ -44,7 +33,7 @@ USER app
 
 ENV mode="streaming"
 
-ENV fprocess="node index.js"
+ENV fprocess="sh ./index.sh"
 EXPOSE 8080
 
 HEALTHCHECK --interval=3s CMD [ -e /tmp/.lock ] || exit 1

@@ -71,3 +71,39 @@ Message 8
 Message 9
 Message 10
 ```
+
+
+Example with bash:
+
+```
+faas-cli new --lang bash-streaming printr
+```
+
+* Edit `printr/handler.sh`
+
+```
+#!/bin/sh
+
+for i in $(seq 1 100) ; do  sleep 0.01 &&  echo $i; done
+
+```
+
+Output:
+
+```
+time curl -i http://127.0.0.1:8080/function/printr
+HTTP/1.1 200 OK
+Content-Length: 292
+Content-Type: application/octet-stream
+Date: Sat, 31 Aug 2019 09:12:37 GMT
+X-Call-Id: cc54c283-fc56-4c4b-9fbe-70638eb1a6dc
+X-Start-Time: 1567242756314135880
+
+1
+2
+3
+...
+98
+99
+100
+```
