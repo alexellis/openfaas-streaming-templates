@@ -4,6 +4,12 @@ Example of of-watchdog using Node.js and the streaming mode
 
 Requested by Luca Morandini, Data Architect at AURIN, University of Melbourne. Designed at no cost by Alex Ellis of OpenFaaS Ltd.
 
+## Notes
+
+Whilst the data does stream, there are buffers in Golang's i/o packages set at around 32-64KB, which means that you may print out `1-10000` via STDOUT, but the first output your client may receive is 1-6770, followed by the remainder up to 10000.
+
+## Example
+
 * Create new
 
 ```
