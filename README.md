@@ -84,7 +84,25 @@ faas-cli new --lang bash-streaming printr
 ```
 #!/bin/sh
 
-for i in $(seq 1 100) ; do  sleep 0.01 &&  echo $i; done
+for i in $(seq 1 10000) ; do  sleep 0.001 &&  echo $i; done
+```
+
+* Now set a bigger timeout
+
+```yaml
+version: 1.0
+provider:
+  name: openfaas
+  gateway: http://127.0.0.1:8080
+functions:
+  printr:
+    lang: bash-streaming
+    handler: ./printr
+    image: printr:latest
+    environment:
+      write_timeout: 1m
+      read_timeout: 1m
+      exec_timeout: 1m
 
 ```
 
