@@ -19,7 +19,7 @@ module.exports = (context, callback) => {
 
     var count = 0;
     var timer = setInterval(function() {
-        console.log("Message " + count.toString());
+        process.stdout.write("Message " + count.toString()+"\n");
         count++;
 
         if(count > 10) {
