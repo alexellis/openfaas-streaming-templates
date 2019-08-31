@@ -2,6 +2,10 @@ FROM openfaas/of-watchdog:0.7.1 as watchdog
 
 FROM alpine:3.10 as build
 
+ARG ADDITIONAL_PKG=""
+
+RUN apk add --no-cache ${ADDITIONAL_PKG}
+
 COPY --from=watchdog /fwatchdog /usr/bin/fwatchdog
 RUN chmod +x /usr/bin/fwatchdog
 
