@@ -1,8 +1,8 @@
 ## node-streaming
 
-Example of of-watchdog using Node.js and the streaming mode
+Example of of-watchdog using Node.js and bash for streaming data from an OpenFaaS Function/endpoint.
 
-Requested by Luca Morandini, Data Architect at AURIN, University of Melbourne. Designed at no cost by Alex Ellis of OpenFaaS Ltd.
+This is a real-world example requested by Luca Morandini, Data Architect at AURIN, University of Melbourne. The consultancy was provided by [Alex Ellis of OpenFaaS Ltd](https://www.alexellis.io/) for free as a gesture of goodwill.
 
 ## Notes
 
