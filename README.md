@@ -164,7 +164,12 @@ X-Start-Time: 1567242756314135880
 See the ffmpeg.yml file and `./ffmpeg/handler.sh` for how this works.
 
 * Take a short video with the webcam on your MacBook Pro using QuickTime and "Record Movie"
-* Or download a short `mp4` with the `youtubedl` function of the Function Store
+* Or download a short `mp4` with the `youtubedl` function of the Function Store i.e. `https://www.youtube.com/watch?v=eznZ0PlWGGE`
+
+```sh
+faas-cli store deploy youtubedl
+echo https://www.youtube.com/watch?v=eznZ0PlWGGE | faas-cli invoke youtubedl > blinkt.mp4 
+```
 
 * Deploy the ffmpeg function to your OpenFaaS installation
 
