@@ -1,14 +1,20 @@
-## node-streaming
+## openfaas-streaming-templates
 
-Example of of-watchdog using Node.js and bash for streaming data from an OpenFaaS Function/endpoint.
+Examples of `of-watchdog` from OpenFaaS used for streaming data with:
 
-This is a real-world example requested by Luca Morandini, Data Architect at AURIN, University of Melbourne. The consultancy was provided by [Alex Ellis of OpenFaaS Ltd](https://www.alexellis.io/) for free as a gesture of goodwill.
+* Node.js 10 - to stream responses, either text or big blobs of binary data.
+* Bash - to execute arbitrary commands and bash as a "HTTP" API
+* ffmpeg - to produce a gif from a `mov` QuickTime file
 
-## Notes
+This is a real-world example requested by Luca Morandini, Data Architect at AURIN, University of Melbourne.
+
+The example was provided for free as a gesture of good will by [Alex Ellis of OpenFaaS Ltd](https://www.alexellis.io/).
+
+## The examples
 
 Whilst the data does stream, there are buffers in Golang's i/o packages set at around 32-64KB, which means that you may print out `1-10000` via STDOUT, but the first output your client may receive is 1-6770, followed by the remainder up to 10000.
 
-## Example
+### Example with Node.js
 
 * Create new
 
@@ -101,7 +107,7 @@ Message 10
 ```
 
 
-Example with bash:
+### Example with bash:
 
 ```
 faas-cli new --lang bash-streaming printr
@@ -153,3 +159,43 @@ X-Start-Time: 1567242756314135880
 99
 100
 ```
+### Example with ffmpeg
+
+See the ffmpeg.yml file and `./ffmpeg/handler.sh` for how this works.
+
+* Take a short video with the webcam on your MacBook Pro
+* Deploy the ffmpeg function to your OpenFaaS installation
+
+```sh
+#!/bin/sh
+
+# Create a temporary filename
+export nano=`date +%s%N`
+
+export OUT=/tmp/$nano.mov
+
+# Save stdin to a temp file
+cat - > ${OUT}
+
+# Scale down to 50%
+# Use format rgb24
+# Reduce to 5 FPS to reduce the size
+# Use "gif" as output format
+# Use "pipe:1" (STDOUT) to write the binary data
+ffmpeg -i ${OUT} -vf scale=iw*.5:ih*.5 -pix_fmt rgb24 -r 5 -f gif -hide_banner pipe:1
+
+# After printing to stdout, the client has received the data via streaming
+# Now we delete the temporary file
+rm ${OUT}
+```
+
+* Invoke the function
+* Review your gif and share with your friends on Twitter or with [@alexellisuk](https://twitter.com/alexellisuk)
+
+```sh
+export OPENFAAS_URL=http://127.0.0.1:8080
+
+curl -SLsf http://$OPENFAAS_URL/function/ffmpeg --data-binary @$HOME/Desktop/my-video.mov > my-gif.gif
+```
+
+You can also limit concurrency by adding `max_inflight=1` to only allow one video to be processed at once, or up the value to whatever you feel is a sane limit like `max_inflight=10`.
