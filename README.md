@@ -163,7 +163,9 @@ X-Start-Time: 1567242756314135880
 
 See the ffmpeg.yml file and `./ffmpeg/handler.sh` for how this works.
 
-* Take a short video with the webcam on your MacBook Pro
+* Take a short video with the webcam on your MacBook Pro using QuickTime and "Record Movie"
+* Or download a short `mp4` with the `youtubedl` function of the Function Store
+
 * Deploy the ffmpeg function to your OpenFaaS installation
 
 ```
