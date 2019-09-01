@@ -6,7 +6,7 @@ functions:
   ffmpeg:
     lang: bash-streaming
     handler: ./ffmpeg
-    image: ffmpeg:latest
+    image: alexellis2/ffmpeg:latest
     environment:
       write_timeout: 1m
       read_timeout: 1m

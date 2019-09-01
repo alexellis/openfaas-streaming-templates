@@ -166,6 +166,12 @@ See the ffmpeg.yml file and `./ffmpeg/handler.sh` for how this works.
 * Take a short video with the webcam on your MacBook Pro
 * Deploy the ffmpeg function to your OpenFaaS installation
 
+```
+faas-cli up -f ffmpeg --build-arg ADDITIONAL_PKG=ffmpeg
+```
+
+Example of the script:
+
 ```sh
 #!/bin/sh
 
