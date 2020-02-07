@@ -8,7 +8,7 @@ Examples of `of-watchdog` from OpenFaaS used for streaming data with:
 
 This is a real-world example requested by Luca Morandini, Data Architect at AURIN, University of Melbourne.
 
-The example was provided for free as a gesture of good will by [Alex Ellis of OpenFaaS Ltd](https://www.alexellis.io/).
+See also: [A collection of demos for the streaming functionality of openfaas by Netflix](https://github.com/cconger/openfaas-streaming-demos)
 
 ## The examples
 
