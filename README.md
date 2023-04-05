@@ -2,7 +2,7 @@
 
 Examples of `of-watchdog` from OpenFaaS used for streaming data with:
 
-* Node.js 10 - to stream responses, either text or big blobs of binary data.
+* Node.js 18 - to stream responses, either text or big blobs of binary data.
 * Bash - to execute arbitrary commands and bash as a "HTTP" API
 * ffmpeg - to produce a gif from a `mov` QuickTime file
 
@@ -173,9 +173,22 @@ echo https://www.youtube.com/watch?v=eznZ0PlWGGE | faas-cli invoke youtubedl > b
 
 * Deploy the ffmpeg function to your OpenFaaS installation
 
+Specify ffmpeg via the `build_options` mechanism. See also template.yml for pre-defined build options.
+
+```yaml
+functions:
+  ffmpeg:
+    build_options:
+    - ffmpeg
+```
+
+Or specify it via a build-arg:
+
 ```
 faas-cli up -f ffmpeg --build-arg ADDITIONAL_PKG=ffmpeg
 ```
+
+Any other Alpine Linux packages can be added to ADDITIONAL_PKG in a similar way such as `curl`
 
 Example of the script:
 
