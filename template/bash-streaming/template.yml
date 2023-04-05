@@ -1,2 +1,9 @@
 language: bash-streaming
 fprocess: sh ./index.sh
+build_options:
+  - name: ffmpeg
+    packages: 
+      - ffmpeg
+  - name: curl
+    packages: 
+      - curl

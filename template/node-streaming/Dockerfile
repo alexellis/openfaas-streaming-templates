@@ -1,11 +1,15 @@
-FROM openfaas/of-watchdog:0.7.1 as watchdog
+FROM ghcr.io/openfaas/of-watchdog:0.9.11 as watchdog
 
-FROM node:8.9.1-alpine as build
+FROM node:18-alpine as build
+
+ARG ADDITIONAL_PACKAGE=""
 
 COPY --from=watchdog /fwatchdog /usr/bin/fwatchdog
 RUN chmod +x /usr/bin/fwatchdog
 
 RUN addgroup -S app && adduser app -S -G app
+
+RUN apk add --no-cache ${ADDITIONAL_PACKAGE}
 
 WORKDIR /root/
 

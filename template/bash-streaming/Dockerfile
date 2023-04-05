@@ -1,15 +1,15 @@
-FROM openfaas/of-watchdog:0.7.1 as watchdog
+FROM ghcr.io/openfaas/of-watchdog:0.9.11 as watchdog
 
-FROM alpine:3.10 as build
+FROM alpine:3.17.3 as build
 
-ARG ADDITIONAL_PKG=""
-
-RUN apk add --no-cache ${ADDITIONAL_PKG}
+ARG ADDITIONAL_PACKAGE=""
 
 COPY --from=watchdog /fwatchdog /usr/bin/fwatchdog
 RUN chmod +x /usr/bin/fwatchdog
 
 RUN addgroup -S app && adduser app -S -G app
+
+RUN apk add --no-cache ${ADDITIONAL_PACKAGE}
 
 WORKDIR /root/
 
@@ -21,7 +21,6 @@ COPY index.sh ./
 
 WORKDIR /home/app/function
 COPY function/*.sh ./
-
 
 # Copy in additional function files and folders
 COPY --chown=app:app function/ .

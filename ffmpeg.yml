@@ -6,8 +6,10 @@ functions:
   ffmpeg:
     lang: bash-streaming
     handler: ./ffmpeg
-    image: alexellis2/ffmpeg:latest
+    image: alexellis2/openfaas-mov-to-gif:0.0.1
+    build_options:
+    - ffmpeg
     environment:
-      write_timeout: 1m
-      read_timeout: 1m
-      exec_timeout: 1m
+      write_timeout: 2m5s
+      read_timeout: 2m5s
+      exec_timeout: 2m

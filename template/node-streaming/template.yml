@@ -1,6 +1,13 @@
 language: node-streaming
 fprocess: node index.js
 welcome_message: |
-  You have created a new function which uses Node.js 8.9.1.
+  You have created a new function which uses Node.js 18 and Alpine Linux.
   npm i --save can be used to add third-party packages like request or cheerio
   npm documentation: https://docs.npmjs.com/
+build_options:
+- name: ffmpeg
+  packages: 
+    - ffmpeg
+- name: curl
+  packages: 
+    - curl
